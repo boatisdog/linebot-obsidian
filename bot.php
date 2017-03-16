@@ -24,7 +24,7 @@ if (!is_null($events['events'])) {
 			];
 			$data = [
 				'replyToken' => $replyToken,
-				'messages' => [$messages, $image],
+				'messages' => [$messages],
 			];
 			if ($text == "get current weather"){
 				//select//
