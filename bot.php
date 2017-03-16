@@ -9,7 +9,7 @@ $messages = [
 	'text' => "HELLO"
 ];
 $data = [
-	'to' => "bnoeawt1",
+	'to' => ["bnoeawt1"],
 	'messages' => [$messages],
 ];
 $url = 'https://api.line.me/v2/bot/message/push';
