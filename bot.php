@@ -20,7 +20,7 @@ if (!is_null($events['events'])) {
 			$replyToken = $event['replyToken'];
 			$messages = [
 				'type' => 'text',
-				'text' => "Don't know"
+				'text' => $replyToken
 			];
 			$data = [
 				'replyToken' => $replyToken,
