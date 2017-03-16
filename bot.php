@@ -21,7 +21,7 @@ if (!is_null($events['events'])) {
 			$replyToken = $event['replyToken'];
 			$messages = [
 				'type' => 'text',
-				'text' => $event
+				'text' => $event['source']['userId']
 			];
 			$data = [
 				'replyToken' => $replyToken,
