@@ -10,7 +10,7 @@ $messages = [
 ];
 $data = [
 	'to' => ["bnoeawt1"],
-	'messages' => [$messages],
+	'messages' => [$messages]
 ];
 $url = 'https://api.line.me/v2/bot/message/push';
 $post = json_encode($data);
@@ -42,7 +42,7 @@ if (!is_null($events['events'])) {
 			$replyToken = $event['replyToken'];
 			$messages = [
 				'type' => 'text',
-				'text' => $replyToken
+				'text' => $event
 			];
 			$data = [
 				'replyToken' => $replyToken,
@@ -100,7 +100,7 @@ if (!is_null($events['events'])) {
 				// Make a POST Request to Messaging API to reply to sender
 				$data = [
 					'replyToken' => $replyToken,
-					'messages' => [$messages],
+					'messages' => [$messages]
 				];
 			}
 			$url = 'https://api.line.me/v2/bot/message/reply';
