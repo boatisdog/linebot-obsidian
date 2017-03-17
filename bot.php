@@ -88,7 +88,6 @@ if (!is_null($events['events'])) {
 				while($myrow = pg_fetch_assoc($result)) { 
 					$output = $output."Weather on : ".$myrow['date_c']."\nTemp is : ".$myrow['temp']."\nWeather is : ".$myrow['weather']."\nPressure is : ".$myrow['air_p']."\nHumidity is : ".$myrow['hum']."\n============================";
 				} 
-				
 				//////////
 				// Build message to reply back
 				$messages = [
@@ -114,17 +113,6 @@ if (!is_null($events['events'])) {
 				];
 			}
 			$url = 'https://api.line.me/v2/bot/message/reply';
-			// $post = json_encode($data);
-			// $headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
-			// $ch = curl_init($url);
-			// curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-			// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			// curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-			// curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-			// curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-			// $result = curl_exec($ch);
-			// curl_close($ch);
-			// echo $result . "\r\n";
 		}
 	}
 }
@@ -138,7 +126,6 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 $result = curl_exec($ch);
 curl_close($ch);
-echo $access_token . "\r\n";
+echo $result . "\r\n";
 pg_close();
-//CREATE TABLE WEATHER_HUMIDITY (date_c VARCHAR(40), temp real, weather VARCHAR(30), air_p INT, hum INT, pic VARCHAR(20));
 echo "OK";
