@@ -24,7 +24,18 @@ if(pg_num_rows($result) > 0){
 	$url = 'https://api.line.me/v2/bot/message/push';
 }
 echo pg_num_rows($result);
-
+echo "send";
+$post = json_encode($data);
+$headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+$result = curl_exec($ch);
+curl_close($ch);
+echo $result . "\r\n";
 // Get POST body content
 $content = file_get_contents('php://input');
 // Parse JSON
@@ -128,20 +139,6 @@ if (!is_null($events['events'])) {
 			// echo $result . "\r\n";
 		}
 	}
-}
-if($data != null){
-	echo "send";
-	$post = json_encode($data);
-	$headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
-	$ch = curl_init($url);
-	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-	$result = curl_exec($ch);
-	curl_close($ch);
-	echo $result . "\r\n";
 }
 
 pg_close();
