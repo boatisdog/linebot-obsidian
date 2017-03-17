@@ -1,8 +1,11 @@
 <?php
-$access_token = 'SiZyVVTPIPP4Qn9VwKKKCI0YA3yjbfpk/mjb4Az4bbnrd275417q/2+JV0XGZca29KQ1F0S1Gh4Tx3DC8mLjQYGnbVLsJzmI2AA7kRlq+983S/bm6h0u4bsEu4Iyb6sl2E8PQnm7d0wguJ3kz6pEhwdB04t89/1O/w1cDnyilFU=';
 //condb
+//Variables
+$access_token = 'SiZyVVTPIPP4Qn9VwKKKCI0YA3yjbfpk/mjb4Az4bbnrd275417q/2+JV0XGZca29KQ1F0S1Gh4Tx3DC8mLjQYGnbVLsJzmI2AA7kRlq+983S/bm6h0u4bsEu4Iyb6sl2E8PQnm7d0wguJ3kz6pEhwdB04t89/1O/w1cDnyilFU=';
+$data = [];
+//////////////////////
+
 $db = pg_connect ("postgres://krdookwgbudwkq:337d29bb2b87f471b47f286fcb7fa1fb885b4b063f9ea5197805f4f679e7d9b8@ec2-54-221-255-153.compute-1.amazonaws.com:5432/dd6j72nr8uanuq");
-//
 $query = "SELECT * FROM WEATHER_HUMIDITY WHERE hum <= 300 ORDER BY pic DESC LIMIT 1"; 
 $result = pg_query($query); 
 if (!$result) { 
@@ -100,7 +103,7 @@ if (!is_null($events['events'])) {
 					'messages' => [$messages]
 				];
 			}
-			// $url = 'https://api.line.me/v2/bot/message/reply';
+			$url = 'https://api.line.me/v2/bot/message/reply';
 			// $post = json_encode($data);
 			// $headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
 			// $ch = curl_init($url);
@@ -115,17 +118,21 @@ if (!is_null($events['events'])) {
 		}
 	}
 }
-$url = 'https://api.line.me/v2/bot/message/reply';
-$post = json_encode($data);
-$headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
-$ch = curl_init($url);
-curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-$result = curl_exec($ch);
-curl_close($ch);
-echo $result . "\r\n";
+if($data != []){
+	$post = json_encode($data);
+	$headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
+	$ch = curl_init($url);
+	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+	$result = curl_exec($ch);
+	curl_close($ch);
+	echo $result . "\r\n";
+}
+
 pg_close();
 echo "OK";
+
+//CREATE TABLE WEATHER_HUMIDITY (date_c VARCHAR(40), temp real, weather VARCHAR(30), air_p INT, hum INT, pic VARCHAR(20));
