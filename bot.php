@@ -141,7 +141,5 @@ if (!is_null($events['events'])) {
 		}
 	}
 } */
-echo "OK";
-
 //CREATE TABLE WEATHER_HUMIDITY (date_c VARCHAR(40), temp real, weather VARCHAR(30), air_p INT, hum INT, pic VARCHAR(20));
->
+echo "OK";
