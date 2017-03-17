@@ -4,7 +4,22 @@ $access_token = 'SiZyVVTPIPP4Qn9VwKKKCI0YA3yjbfpk/mjb4Az4bbnrd275417q/2+JV0XGZca
 //Connect to Database
 $db = pg_connect("postgres://krdookwgbudwkq:337d29bb2b87f471b47f286fcb7fa1fb885b4b063f9ea5197805f4f679e7d9b8@ec2-54-221-255-153.compute-1.amazonaws.com:5432/dd6j72nr8uanuq");
 //echo $resultsql;
-//
+$query = "SELECT * FROM WEATHER_HUMIDITY WHERE hum <= 300 ORDER BY pic DESC LIMIT 1"; 
+$result = pg_query($query); 
+if (!$result) { 
+	echo "Problem with query " . $query . "<br/>"; 
+	echo pg_last_error(); 
+	exit(); 
+} 
+$messages = [
+	'type' => 'text',
+	'text' => "ALERT"
+];
+$data = [
+	"to" => "Uffb752fc81a0f82fe74a413b16913d7b",
+	'messages' => [$messages]
+];
+$url = 'https://api.line.me/v2/bot/message/push';
 //Get data from line api
 $content = file_get_contents('php://input');
 //Decode json to php
@@ -105,22 +120,22 @@ if (!is_null($events['events'])) {
 			pg_close();
 			//เก็บค่า link ของไลน์bot
 			$url = 'https://api.line.me/v2/bot/message/reply';
-			//รวมข้อมูลทั้งหมดไว้ใน อาเรย์ data เตรียมเข้ารหัสเป็น Json
-			//เข้ารหัสเป็น Json เพื่อเตรียมส่งกลับไปใน line
-			$post = json_encode($data);
-			//สร้าง Header ในการส่งสำหรับ line
-			$headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
-			// ทำการส่งค่าที่ทำการ เข้ารหัสเป็น Json ไปยังแชทไลน์
-			$ch = curl_init($url);
-			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-			$result = curl_exec($ch);
-			curl_close($ch);
-			//echo $result . "\r\n";
 		}
 	}
 }
+//รวมข้อมูลทั้งหมดไว้ใน อาเรย์ data เตรียมเข้ารหัสเป็น Json
+//เข้ารหัสเป็น Json เพื่อเตรียมส่งกลับไปใน line
+$post = json_encode($data);
+//สร้าง Header ในการส่งสำหรับ line
+$headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
+// ทำการส่งค่าที่ทำการ เข้ารหัสเป็น Json ไปยังแชทไลน์
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+$result = curl_exec($ch);
+curl_close($ch);
+//echo $result . "\r\n";
 echo "OK";
