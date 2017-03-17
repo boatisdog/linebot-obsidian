@@ -102,6 +102,18 @@ if (!is_null($events['events'])) {
 					'replyToken' => $replyToken,
 					'messages' => [$messages]
 				];
+			}else if ($text == "who am i"){
+				//////////
+				// Build message to reply back
+				$messages = [
+					'type' => 'text',
+					'text' => json_encode($event);
+				];
+				// Make a POST Request to Messaging API to reply to sender
+				$data = [
+					'replyToken' => $replyToken,
+					'messages' => [$messages]
+				];
 			}
 			$url = 'https://api.line.me/v2/bot/message/reply';
 			// $post = json_encode($data);
