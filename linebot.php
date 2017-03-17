@@ -11,15 +11,20 @@ if (!$result) {
 	echo pg_last_error(); 
 	exit(); 
 } 
-$messages = [
+if(pg_num_rows($result) > 0){
+	while($myrow = pg_fetch_assoc($result)) { 
+		$output = "ALERT!! humidity is ".$myrow['hum'];
+	} 
+	$messages = [
 	'type' => 'text',
-	'text' => "ALERT"
-];
-$data = [
-	"to" => "Uffb752fc81a0f82fe74a413b16913d7b",
-	'messages' => [$messages]
-];
-$url = 'https://api.line.me/v2/bot/message/push';
+	'text' => $output
+	];
+	$data = [
+		"to" => "Uffb752fc81a0f82fe74a413b16913d7b",
+		'messages' => [$messages]
+	];
+	$url = 'https://api.line.me/v2/bot/message/push';
+}
 //Get data from line api
 $content = file_get_contents('php://input');
 //Decode json to php

@@ -40,7 +40,7 @@ def main():
             call('sudo git push origin master', shell=True)
 
             data_w = requests.get(
-                'http://api.wunderground.com/api/a6be6269233f1bc8/conditions/astronomy/q/TH/Bangkok.json').json()
+                'http://api.wunderground.com/api/a6be6269233f1bc8/conditions/astronomy/q/TH/Nonthaburi.json').json()
             date = data_w['current_observation']['local_time_rfc822']
             print(date)
             temp = data_w['current_observation']['temp_c']
@@ -51,15 +51,14 @@ def main():
             print(pressure)
 
             with conn:
-                cur.execute(
-                    """INSERT INTO WEATHER_HUMIDITY( date_c, temp, weather, air_p, hum, pic ) VALUES (%s, %f, %s, %d, %d, %s)""",
-                    (str(date), temp, str(weather), pressure, data[0], str(pic_name)))
+                cur.execute("INSERT INTO WEATHER_HUMIDITY( date_c, temp, weather, air_p, hum, pic ) VALUES ('"+ str(date) +"', "+ str(temp) +", '"+ str(weather) +"', "+ str(pressure) +", "+ str(data[0]) +", '"+ str(pic_name) +"')")
                 conn.commit()
 
         except modbus_tk.modbus.ModbusError as exc:
             logger.error("%s- Code=%d", exc, exc.get_exception_code())
 
-        time.sleep(30)
+        re_bot = requests.get('https://linebot-obsidian.herokuapp.com/linebot.php')
+        time.sleep(10)
 
 
 if __name__ == "__main__":

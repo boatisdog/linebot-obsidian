@@ -1,6 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 //condb
 //Variables
 $access_token = 'SiZyVVTPIPP4Qn9VwKKKCI0YA3yjbfpk/mjb4Az4bbnrd275417q/2+JV0XGZca29KQ1F0S1Gh4Tx3DC8mLjQYGnbVLsJzmI2AA7kRlq+983S/bm6h0u4bsEu4Iyb6sl2E8PQnm7d0wguJ3kz6pEhwdB04t89/1O/w1cDnyilFU=';
@@ -14,15 +12,17 @@ if (!$result) {
 	echo pg_last_error(); 
 	exit(); 
 } 
-$messages = [
-	'type' => 'text',
-	'text' => "ALERT"
-];
-$data = [
-	"to" => "Uffb752fc81a0f82fe74a413b16913d7b",
-	'messages' => [$messages]
-];
-$url = 'https://api.line.me/v2/bot/message/push';
+if(pg_num_rows($result) > 0){
+	$messages = [
+		'type' => 'text',
+		'text' => "ALERT"
+	];
+	$data = [
+		"to" => "Uffb752fc81a0f82fe74a413b16913d7b",
+		'messages' => [$messages]
+	];
+	$url = 'https://api.line.me/v2/bot/message/push';
+}
 
 // Get POST body content
 $content = file_get_contents('php://input');
