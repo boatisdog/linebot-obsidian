@@ -24,7 +24,7 @@ if(pg_num_rows($result) > 0){
 	];
 	$url = 'https://api.line.me/v2/bot/message/push';
 }
-
+echo pg_num_rows($result);
 
 // Get POST body content
 $content = file_get_contents('php://input');
@@ -131,6 +131,7 @@ if (!is_null($events['events'])) {
 	}
 }
 if($data != []){
+	echo "send";
 	$post = json_encode($data);
 	$headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
 	$ch = curl_init($url);
